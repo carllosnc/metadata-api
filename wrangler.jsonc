@@ -2,13 +2,6 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "metadata-api",
   "main": "src/index.ts",
-  "workers_dev": true,
-  "compatibility_flags": [
-    "nodejs_compat_v2"
-  ],
-  "browser": {
-    "binding": "MYBROWSER"
-  },
   "compatibility_date": "2025-04-21"
   // "compatibility_flags": [
   //   "nodejs_compat"
