@@ -3,6 +3,7 @@ import { urlValidation } from './middlewares/validation'
 import * as cheerio from 'cheerio';
 import { csrf } from 'hono/csrf'
 import { cors } from 'hono/cors'
+import puppeteer from "@cloudflare/puppeteer"
 
 const app = new Hono()
 
@@ -33,8 +34,15 @@ app.get('/metadata', urlValidation, async (c) => {
     url = url.slice(0, -1)
   }
 
-  const metadata = await fetch(url!).then((res) => res.text())
-  const $ = cheerio.load(metadata)
+  const browser = await puppeteer.launch((c as any).env.MYBROWSER)
+  const page = await browser.newPage()
+
+  await page.goto(url!)
+
+  const head = await page.waitForSelector('head')
+  const headContent = await head!.evaluate((el) => el.innerHTML)
+
+  const $ = cheerio.load(headContent)
 
   const title = $('title').text()
     || $('meta[property="og:title"]').attr('content')
