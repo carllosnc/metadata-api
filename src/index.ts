@@ -2,16 +2,22 @@ import { Hono } from 'hono'
 import { urlValidation } from './middlewares/validation'
 import * as cheerio from 'cheerio';
 import { csrf } from 'hono/csrf'
+import { cors } from 'hono/cors'
 
 const app = new Hono()
 
 app.use(csrf())
+
+app.use(cors({
+  origin: ['http://localhost:5173/', 'https://marked-links.vercel.app/'],
+}))
 
 app.get('/', (c) => {
   return c.json({
     author: 'Carlos Costa',
     github: 'https://github.com/carllosnc/metadata-api',
     description: 'A RESTful API to get metadata from web pages',
+    version: '0.0.2',
   })
 })
 
