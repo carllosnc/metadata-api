@@ -10,10 +10,11 @@ app.use(csrf())
 
 app.use('*', cors({
   origin: [
-    'http://localhost:5173/',
+    'http://localhost:5173',
     'http://localhost',
-    'https://marked-links.vercel.app/',
+    'https://marked-links.vercel.app',
   ],
+  allowMethods: ['GET', 'OPTIONS'],
 }))
 
 app.get('/', (c) => {
