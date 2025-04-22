@@ -6,7 +6,7 @@
 
 Request:
 ```sh
-curl https://metadata-api.carllosnc.workers.dev/metadata?url=https://hono.dev/
+curl https://metadata-api.carllos-nc.workers.dev/metadata?url=https://hono.dev/
 ```
 
 Response:
