@@ -8,8 +8,12 @@ const app = new Hono()
 
 app.use(csrf())
 
-app.use(cors({
-  origin: ['http://localhost:5173/', 'https://marked-links.vercel.app/'],
+app.use('*', cors({
+  origin: [
+    'http://localhost:5173/',
+    'http://localhost',
+    'https://marked-links.vercel.app/',
+  ],
 }))
 
 app.get('/', (c) => {
@@ -17,7 +21,7 @@ app.get('/', (c) => {
     author: 'Carlos Costa',
     github: 'https://github.com/carllosnc/metadata-api',
     description: 'A RESTful API to get metadata from web pages',
-    version: '0.0.2',
+    version: '0.0.3',
   })
 })
 
