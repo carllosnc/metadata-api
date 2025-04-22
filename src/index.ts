@@ -22,7 +22,7 @@ app.get('/', (c) => {
     author: 'Carlos Costa',
     github: 'https://github.com/carllosnc/metadata-api',
     description: 'A RESTful API to get metadata from web pages',
-    version: '0.0.3',
+    version: '0.0.4',
   })
 })
 
