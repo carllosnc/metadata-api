@@ -15,7 +15,8 @@ Response:
   "url": "https://hono.dev/",
   "title": "Hono",
   "description": "A framework for building serverless applications with Cloudflare Workers.",
-  "keywords": "hono,cloudflare,workers,serverless,framework,web,api,rest,http,json,graphql", "image": "https://hono.dev/assets/images/logo.png",
+  "keywords": "hono,cloudflare,workers,serverless,framework,web,api,rest,http,json,graphql",
+  "image": "https://hono.dev/assets/images/logo.png",
   "favicon": "https://hono.dev/assets/images/favicon.png"
 }
 ```
