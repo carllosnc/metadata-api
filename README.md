@@ -24,18 +24,18 @@ Response:
 ## Development
 
 ```sh
-npm install
-npm run dev
+bun install
+bun run dev
 ```
 
 ```sh
-npm run deploy
+bun run deploy
 ```
 
 [For generating/synchronizing types based on your Worker configuration run](https://developers.cloudflare.com/workers/wrangler/commands/#types):
 
 ```sh
-npm run cf-typegen
+bun run cf-typegen
 ```
 
 Pass the `CloudflareBindings` as generics when instantiation `Hono`:
