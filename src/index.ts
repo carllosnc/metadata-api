@@ -4,7 +4,7 @@ import * as cheerio from 'cheerio';
 import { csrf } from 'hono/csrf'
 import { cors } from 'hono/cors'
 
-const app = new Hono()
+const app = new Hono<{ Bindings: CloudflareBindings }>()
 
 app.use(csrf())
 
