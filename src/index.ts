@@ -15,6 +15,7 @@ app.use('*', cors({
     'http://localhost',
     'https://marked-links.vercel.app',
     'https://fav-links.vercel.app',
+    'https://favs.carlosnc.site',
   ],
   allowMethods: ['GET', 'OPTIONS'],
 }))
