@@ -40,7 +40,7 @@ app.get('/metadata', urlValidation, async (c) => {
 
   const $ = cheerio.load(headContent)
 
-  const title = $('title').text()
+  const title = $('head > title').text()
     || $('meta[property="og:title"]').attr('content')
     || $('meta[name="twitter:title"]').attr('content')
     || url
