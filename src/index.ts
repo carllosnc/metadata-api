@@ -1,8 +1,10 @@
 import { Hono } from 'hono'
 import { urlValidation } from './middlewares/validation'
-import * as cheerio from 'cheerio';
 import { csrf } from 'hono/csrf'
 import { cors } from 'hono/cors'
+import { getMetaDataFromAnySite } from './providers/any-site';
+import { getMetaDataFromYoutube } from './providers/youtube';
+import { isYouTubeUrl } from "./providers/youtube";
 
 const app = new Hono<{ Bindings: CloudflareBindings }>()
 
@@ -32,43 +34,11 @@ app.get('/', (c) => {
 app.get('/metadata', urlValidation, async (c) => {
   let url = c.req.query('url')
 
-  if (url?.endsWith('/')) {
-    url = url.slice(0, -1)
+  if (isYouTubeUrl(url!)) {
+    return c.json(await getMetaDataFromYoutube(url!))
   }
 
-  const headContent = await fetch(url!).then(res => res.text())
-
-  const $ = cheerio.load(headContent)
-
-  const title = $('head > title').text()
-    || $('meta[property="og:title"]').attr('content')
-    || $('meta[name="twitter:title"]').attr('content')
-    || url
-
-  const description = $('meta[name="description"]').attr('content')
-    || $('meta[name="twitter:description"]').attr('content')
-    || $('meta[property="og:description"]').attr('content')
-
-  const keywords = $('meta[name="keywords"]').attr('content')
-  const ogImage = $('meta[property="og:image"]').attr('content')
-  const twitterImage = $('meta[name="twitter:image"]').attr('content')
-
-  const icon = $('link[rel*="icon"]').attr('href')
-    || $('link[rel*="shortcut"]').attr('href')
-    || $('link[rel*="apple-touch-icon"]').attr('href')
-    || $('img[src*="favicon"]').attr('src')
-    || $('meta[itemprop="image"]').attr('content')
-
-  const favicon = icon ? new URL(icon, url).href : null
-
-  return c.json({
-    url: url || null,
-    title: title || null,
-    description: description || null,
-    keywords: keywords || null,
-    image: ogImage || twitterImage || null,
-    favicon: favicon || null,
-  })
+  return c.json(await getMetaDataFromAnySite(url!))
 })
 
 export default app
