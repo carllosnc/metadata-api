@@ -1,5 +1,7 @@
 # Metadata API
 
+[![CI](https://github.com/carllosnc/metadata-api/actions/workflows/ci.yml/badge.svg)](https://github.com/carllosnc/metadata-api/actions/workflows/ci.yml)
+
 > A RESTful API to get metadata from web pages.
 
 ## Documentation
