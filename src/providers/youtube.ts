@@ -23,6 +23,7 @@ export const isYouTubeUrl = (url: string): boolean => {
 export async function getMetaDataFromYoutube(url: string): Promise<YouTubeMetadata> {
   const response = await fetch(`https://youtube.com/oembed?url=${url}&format=json`)
   const data: YouTubeMetadata = await response.json()
+  data.url = url
   return data
 }
 
