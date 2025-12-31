@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@types/bun": "^1.2.10",
+    "vitest": "^4.0.16",
     "wrangler": "^4.4.0"
   }
 }
