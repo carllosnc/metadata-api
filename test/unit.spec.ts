@@ -64,4 +64,33 @@ describe("Test endpoints", () => {
     expect(json).toHaveProperty('thumbnail_width')
     expect(json).toHaveProperty('html')
   })
+
+  test('Metadata for twitter', async () => {
+    const res = await app.request('/metadata?url=https://x.com/anime_shots/status/2008237217089540228')
+    expect(res.status).toBe(200)
+    const json = await res.json()
+
+    expect(json).toHaveProperty('code')
+    expect(json).toHaveProperty('message')
+    expect(json).toHaveProperty('tweet')
+    expect(json).toHaveProperty('tweet.url')
+    expect(json).toHaveProperty('tweet.id')
+    expect(json).toHaveProperty('tweet.text')
+    expect(json).toHaveProperty('tweet.raw_text')
+  })
+
+  test('Metadata for x.com', async () => {
+    const res = await app.request('/metadata?url=https://x.com/anime_shots/status/2008237217089540228')
+    expect(res.status).toBe(200)
+    const json = await res.json()
+
+    expect(json).toHaveProperty('code')
+    expect(json).toHaveProperty('message')
+    expect(json).toHaveProperty('tweet')
+    expect(json).toHaveProperty('tweet.url')
+    expect(json).toHaveProperty('tweet.id')
+    expect(json).toHaveProperty('tweet.text')
+    expect(json).toHaveProperty('tweet.raw_text')
+  })
 })
+
