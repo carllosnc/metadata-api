@@ -26,4 +26,3 @@ export async function getMetaDataFromYoutube(url: string): Promise<YouTubeMetada
   data.url = url
   return data
 }
-
