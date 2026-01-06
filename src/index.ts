@@ -5,6 +5,7 @@ import { cors } from 'hono/cors'
 import { getMetaDataFromAnySite } from './providers/any-site';
 import { getMetaDataFromYoutube } from './providers/youtube';
 import { isYouTubeUrl } from "./providers/youtube";
+import { getMetaDataFromTwitter, isTwitterUrl } from './providers/twitter';
 
 const app = new Hono<{ Bindings: CloudflareBindings }>()
 
@@ -36,6 +37,10 @@ app.get('/metadata', urlValidation, async (c) => {
 
   if (isYouTubeUrl(url!)) {
     return c.json(await getMetaDataFromYoutube(url!))
+  }
+
+  if (isTwitterUrl(url!)) {
+    return c.json(await getMetaDataFromTwitter(url!))
   }
 
   return c.json(await getMetaDataFromAnySite(url!))
