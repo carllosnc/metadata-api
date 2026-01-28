@@ -4,6 +4,13 @@
 
 > A RESTful API to get metadata from web pages.
 
+## Features
+
+- **General Sites**: Extracts title, description, keywords, image, and favicon from any website.
+- **Specialized Providers**:
+  - **YouTube**: Detailed video information including thumbnails, author, and statistics.
+  - **Twitter/X**: Tweet content, media (images/videos), author info, and stats.
+
 ## Documentation
 
 Full documentation is available in the [`docs/`](./docs/README.md) directory:

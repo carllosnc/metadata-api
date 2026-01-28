@@ -44,8 +44,7 @@ export function isTwitterUrl(url: string): boolean {
 
 export async function getMetaDataFromTwitter(url: string): Promise<TwitterApiMetadata> {
   const myUrl = new URL(url)
-  const pathName = myUrl.pathname
-  const response = await fetch(`https://api.fxtwitter.com${pathName}`, {
+  const response = await fetch(`https://api.fxtwitter.com${myUrl.pathname}`, {
     headers: {
       'User-Agent': 'MyAwesomeBot/1.0 (+http://example.com/myawesomebot)',
     },

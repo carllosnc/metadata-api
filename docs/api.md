@@ -40,7 +40,11 @@ Fetches metadata for a specific URL.
 curl "https://metadata-api.carllos-nc.workers.dev/metadata?url=https://hono.dev/"
 ```
 
-**Example Response:**
+**Example Response (General):**
+
+The response structure varies depending on the provider (General, YouTube, Twitter).
+
+**General Site:**
 
 ```json
 {
@@ -50,6 +54,23 @@ curl "https://metadata-api.carllos-nc.workers.dev/metadata?url=https://hono.dev/
   "keywords": "hono,cloudflare,workers,serverless,framework,web,api,rest,http,json,graphql",
   "image": "https://hono.dev/assets/images/logo.png",
   "favicon": "https://hono.dev/assets/images/favicon.png"
+}
+```
+
+**Twitter/X:**
+
+```json
+{
+  "code": 200,
+  "message": "OK",
+  "tweet": {
+    "url": "https://x.com/username/status/1234567890",
+    "text": "Hello world",
+    "author": {
+      "name": "User",
+      "screen_name": "username"
+    }
+  }
 }
 ```
 
