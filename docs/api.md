@@ -20,7 +20,7 @@ Returns API information and status.
   "author": "Carlos Costa",
   "github": "https://github.com/carllosnc/metadata-api",
   "description": "A RESTful API to get metadata from web pages",
-  "version": "0.0.5"
+  "version": "0.1.0"
 }
 ```
 
@@ -77,3 +77,14 @@ The response structure varies depending on the provider (General, YouTube, Twitt
 **Error Response (400 Bad Request):**
 
 If the URL is missing or invalid.
+
+**Error Response (502 Bad Gateway):**
+
+Returned when the upstream fetch fails or the target server responds with a non-success status.
+
+```json
+{
+  "error": true,
+  "message": "Failed to fetch the URL: network down"
+}
+```

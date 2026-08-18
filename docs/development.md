@@ -29,6 +29,20 @@ Run unit tests using Vitest:
 bun run test
 ```
 
+Run tests in watch mode during development:
+
+```bash
+bun run test:watch
+```
+
+## Typechecking
+
+Type-check the project with TypeScript:
+
+```bash
+bun run typecheck
+```
+
 ## Type Generation
 
 Generate types based on your Worker configuration:
