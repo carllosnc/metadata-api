@@ -1,5 +1,9 @@
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, vi, afterEach } from "vitest";
 import app from "../src";
+
+afterEach(() => {
+  vi.unstubAllGlobals()
+})
 
 describe("Test endpoints", () => {
   test('Welcome', async () => {
@@ -10,7 +14,7 @@ describe("Test endpoints", () => {
       author: 'Carlos Costa',
       github: 'https://github.com/carllosnc/metadata-api',
       description: 'A RESTful API to get metadata from web pages',
-      version: '0.0.5',
+      version: '0.1.0',
     })
   })
 
@@ -30,7 +34,38 @@ describe("Test endpoints", () => {
     const res = await app.request('/metadata')
     expect(res.status).toBe(400)
   })
-  
+
+  test('Returns 502 when upstream fetch fails', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network down')))
+    const res = await app.request('/metadata?url=https://example.com')
+    expect(res.status).toBe(502)
+    expect(await res.json()).toEqual({
+      error: true,
+      message: 'Failed to fetch the URL: network down',
+    })
+  })
+
+  test('Returns 502 when upstream responds with non-ok status', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(
+      new Response('Not Found', { status: 404 })
+    ))
+    const res = await app.request('/metadata?url=https://example.com')
+    expect(res.status).toBe(502)
+    expect(await res.json()).toEqual({
+      error: true,
+      message: 'Upstream responded with status 404',
+    })
+  })
+
+  test('Returns 502 when YouTube oEmbed fails', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('timeout')))
+    const res = await app.request('/metadata?url=https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+    expect(res.status).toBe(502)
+    const json = await res.json() as { error: boolean, message: string }
+    expect(json).toMatchObject({ error: true })
+    expect(json.message).toContain('YouTube')
+  })
+
   test('Metadata for any site', async () => {
     const res = await app.request('/metadata?url=https://github.com')
     expect(res.status).toBe(200)
