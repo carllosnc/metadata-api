@@ -1,3 +1,5 @@
+import { HTTPException } from 'hono/http-exception'
+
 export interface TwitterApiMetadata {
   code?: number
   message?: string
@@ -44,11 +46,21 @@ export function isTwitterUrl(url: string): boolean {
 
 export async function getMetaDataFromTwitter(url: string): Promise<TwitterApiMetadata> {
   const myUrl = new URL(url)
-  const response = await fetch(`https://api.fxtwitter.com${myUrl.pathname}`, {
-    headers: {
-      'User-Agent': 'MyAwesomeBot/1.0 (+http://example.com/myawesomebot)',
-    },
-  })
+  let response: Response
+  try {
+    response = await fetch(`https://api.fxtwitter.com${myUrl.pathname}`, {
+      headers: {
+        'User-Agent': 'MyAwesomeBot/1.0 (+http://example.com/myawesomebot)',
+      },
+    })
+  } catch (err) {
+    throw new HTTPException(502, { message: `Failed to fetch tweet metadata: ${(err as Error).message}` })
+  }
+
+  if (!response.ok) {
+    throw new HTTPException(502, { message: `fxtwitter responded with status ${response.status}` })
+  }
+
   const data: TwitterApiMetadata = await response.json()
   return data
 }

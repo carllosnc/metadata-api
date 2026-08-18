@@ -1,4 +1,5 @@
 import * as cheerio from 'cheerio'
+import { HTTPException } from 'hono/http-exception'
 
 export type SiteMetaData = {
   url: string | null
@@ -14,7 +15,18 @@ export async function getMetaDataFromAnySite(url: string): Promise<SiteMetaData>
     url = url.slice(0, -1)
   }
 
-  const headContent = await fetch(url!).then(res => res.text())
+  let response: Response
+  try {
+    response = await fetch(url)
+  } catch (err) {
+    throw new HTTPException(502, { message: `Failed to fetch the URL: ${(err as Error).message}` })
+  }
+
+  if (!response.ok) {
+    throw new HTTPException(502, { message: `Upstream responded with status ${response.status}` })
+  }
+
+  const headContent = await response.text()
   const $ = cheerio.load(headContent)
 
   let title = $('head > title').text()

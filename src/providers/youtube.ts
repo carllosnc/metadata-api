@@ -1,3 +1,5 @@
+import { HTTPException } from 'hono/http-exception'
+
 export type YouTubeMetadata = {
   title: string
   url: string
@@ -21,7 +23,17 @@ export const isYouTubeUrl = (url: string): boolean => {
 };
 
 export async function getMetaDataFromYoutube(url: string): Promise<YouTubeMetadata> {
-  const response = await fetch(`https://youtube.com/oembed?url=${url}&format=json`)
+  let response: Response
+  try {
+    response = await fetch(`https://youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`)
+  } catch (err) {
+    throw new HTTPException(502, { message: `Failed to fetch YouTube metadata: ${(err as Error).message}` })
+  }
+
+  if (!response.ok) {
+    throw new HTTPException(502, { message: `YouTube oEmbed responded with status ${response.status}` })
+  }
+
   const data: YouTubeMetadata = await response.json()
   data.url = url
   return data
